@@ -5,26 +5,19 @@ import './App.css'
 
 class App extends React.Component {
   state = { 
-    advice: '',
-    nextAdvice: '' 
+    adviceList: []
   }
 
-  fetchInitialAdvice = () => {
+  fetchAdvice = () => {
     axios.get('https://api.adviceslip.com/advice')
       .then((response) => {
         const { advice } = response.data.slip
-        this.setState({ advice });
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-  }
 
-  fetchNextAdvice = () => {
-    axios.get('https://api.adviceslip.com/advice')
-      .then((response) => {
-        const { advice } = response.data.slip
-        this.setState({ nextAdvice: advice });
+        this.setState(prevState => ({
+          adviceList: [...prevState.adviceList, advice]
+        }))
+
+        console.log(this.state)
       })
       .catch((error) => {
         console.log(error)
@@ -32,24 +25,17 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchInitialAdvice();
-    this.fetchNextAdvice();
-  }
-
-  loadAdvice = () => {
-    this.setState( {advice: this.state.nextAdvice} );
-    this.fetchNextAdvice();
+    this.fetchAdvice()
   }
 
   render() {
-    const { advice } = this.state;
+    const { adviceList } = this.state;
 
     return (
       <div className="app">
         <div className="card">
-          <h1 className="heading">{advice}</h1>
-          <h2 className="heading">{this.state.nextAdvice}</h2>
-          <button className="button" onClick={this.loadAdvice}>
+          <h1 className="heading">{adviceList[adviceList.length - 1]}</h1>
+          <button className="button" onClick={this.fetchAdvice}>
               <span>GIVE ME ADVICE!</span>
           </button>
         </div>
