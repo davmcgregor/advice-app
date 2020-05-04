@@ -25,5 +25,5 @@ $ npm start
 
 ## Further improvements
 
-* Add API call to onClick event so the carousel updates as user moves through it;
-* Fix styling for mobile;
+* Add API call to onClick event so the carousel updates as user moves through it.
+* Fix styling for mobile.
