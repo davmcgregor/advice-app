@@ -1,11 +1,13 @@
 import React from 'react';
-import axios from 'axios';
+import axios from 'axios'; 
+import M from "materialize-css";
+import 'materialize-css/dist/css/materialize.min.css'
 
 import './App.css'
 
 class App extends React.Component {
   state = { 
-    adviceList: []
+    adviceList: [],
   }
 
   fetchAdvice = () => {
@@ -17,29 +19,40 @@ class App extends React.Component {
           adviceList: [...prevState.adviceList, advice]
         }))
 
-        console.log(this.state)
+        var elem = document.querySelector('.carousel')
+        M.Carousel.init(elem, { duration: 200 })
       })
       .catch((error) => {
         console.log(error)
       });
   }
 
-  componentDidMount() {
-    this.fetchAdvice()
+  loadAdvice(){
+    for  (let i = 0; i < 100; i++) {
+      this.fetchAdvice()
+    }
   }
 
+  componentDidMount() {
+    this.loadAdvice()
+  }
+  
   render() {
-    const { adviceList } = this.state;
+    var colors = ["red", "amber", "green", "blue"];
 
-    return (
-      <div className="app">
-        <div className="card">
-          <h1 className="heading">{adviceList[adviceList.length - 1]}</h1>
-          <button className="button" onClick={this.fetchAdvice}>
-              <span>GIVE ME ADVICE!</span>
-          </button>
-        </div>
+    const childElements = this.state.adviceList.map(advice => (
+      <div className={`carousel-item white-text ${colors[Math.floor(Math.random() * 4)]}`}>
+        <h1>{advice}</h1>
       </div>
+    ))
+
+    return ( 
+      <div className="carousel carousel-slider center">
+      <div className="carousel-fixed-item center">
+        <h1>Click for more!</h1>
+      </div>
+      {childElements}
+    </div>
     )
   }
 }
