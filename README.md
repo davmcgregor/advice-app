@@ -25,5 +25,6 @@ $ npm start
 
 ## Further improvements
 
+* Refactoring needed - need to fix placement of Carousel.init. [See here](https://stackoverflow.com/questions/55760448/how-to-initialize-carousel-full-width-and-indicators-with-vanilla-java-script-in)
 * Add API call to onClick event so the carousel updates as user moves through it.
 * Fix styling for mobile.
