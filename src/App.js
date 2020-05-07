@@ -1,59 +1,66 @@
 import React from 'react';
 import axios from 'axios'; 
-import M from "materialize-css";
-import 'materialize-css/dist/css/materialize.min.css'
+import Spinner from './Spinner';
 
-import './App.css'
+import './App.css';
 
 class App extends React.Component {
-  state = { 
-    adviceList: [],
-  }
+  state = {
+    text: "",
+    image: "",
+    loading: true
+  };
 
   fetchAdvice = () => {
-    axios.get('https://api.adviceslip.com/advice')
+    axios.get(`https://api.adviceslip.com/advice?timestamp=${new Date().getTime()}`)
       .then((response) => {
         const { advice } = response.data.slip
 
-        this.setState(prevState => ({
-          adviceList: [...prevState.adviceList, advice]
-        }))
-
-        var elem = document.querySelector('.carousel')
-        M.Carousel.init(elem, { duration: 200 })
+        this.setState({text: advice})
       })
       .catch((error) => {
         console.log(error)
       });
+  };
+
+  fetchImage = () => {
+    this.setState({loading: true})
+    fetch(`https://source.unsplash.com/1600x900/?mountain`).then((response) => {
+      this.setState({ image: `${response.url}`})
+      this.setState({loading: false})
+    })
   }
 
-  loadAdvice(){
-    for  (let i = 0; i < 10; i++) {
-      this.fetchAdvice()
-    }
-  }
 
   componentDidMount() {
-    this.loadAdvice()
+    this.fetchAdvice()
+    this.fetchImage()
+  };
+
+  renderContent() {
+    if (this.state.loading === false) {
+      return <div className="app darken-overlay" style={{backgroundImage: `url(${this.state.image})`}}>
+      <h1 className="advice-text">{this.state.text}</h1>
+      <button 
+        className="large ui primary button"
+        onClick={() => {
+          this.fetchAdvice()
+          this.fetchImage()
+        }}
+        >
+          Next
+      </button>
+    </div>
+    }
+    return <Spinner />
   }
   
   render() {
-    var colors = ["red", "amber", "green", "blue"];
-
-    const childElements = this.state.adviceList.map(advice => (
-      <div className={`carousel-item white-text ${colors[Math.floor(Math.random() * 4)]}`}>
-        <h1>{advice}</h1>
-      </div>
-    ))
-
     return ( 
-      <div className="carousel carousel-slider center">
-      <div className="carousel-fixed-item center">
-        <h1>Click for more!</h1>
+      <div>
+        {this.renderContent()}
       </div>
-      {childElements}
-    </div>
-    )
+    );
   }
 }
 
