@@ -2,13 +2,16 @@
 
 # [Advice App](https://heuristic-banach-184612.netlify.app/)
 
-![advice-app](advice-app.gif)
+![advice-app-2](advice-app-2.gif)
 
-React app that calls on the [Advice Slip API](https://api.adviceslip.com/) to display strings of advice.
+React app that calls on the [Advice Slip API](https://api.adviceslip.com/) to display strings of advice. The bakground image is fetched from [Unsplash Source](https://source.unsplash.com/).
 
-Technologies used: *React, Materialize CSS*
+Technologies used: React, Semantic UI
 
 This project was bootstrapped with Create React App.
+
+Before opting for current design the app originally had a carousel from Materialize CSS:
+![advice-app](advice-app.gif)
 
 ## Installation Instructions
 
@@ -23,8 +26,3 @@ $ npm install
 $ npm start
 ```
 
-## Further improvements
-
-* Refactoring needed - need to fix placement of Carousel.init. [See here](https://stackoverflow.com/questions/55760448/how-to-initialize-carousel-full-width-and-indicators-with-vanilla-java-script-in)
-* Add API call to onClick event so the carousel updates as user moves through it.
-* Fix styling for mobile.
